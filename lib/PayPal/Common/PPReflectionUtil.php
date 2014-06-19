@@ -27,6 +27,8 @@ class PPReflectionUtil {
 // 			}
 			$param = $annotations['return'];
 		}
+        if (!$annotations)
+            return NULL;
 		
 		if(isset($param)) {
 			$anno = explode(' ', $param);
@@ -57,6 +59,9 @@ class PPReflectionUtil {
 		if (!($refl =& self::$propertiesRefl[$class][$propertyName])) {
 			$getter = method_exists($class, "get" . ucfirst($propertyName)) ? "get". ucfirst($propertyName)
 				: "get". preg_replace("/([_-\s]?([a-z0-9]+))/e", "ucwords('\\2')", $propertyName);
+            if (!method_exists($class, $getter))
+                return NULL;
+
 			$refl = new \ReflectionMethod($class, $getter);
 			self::$propertiesRefl[$class][$propertyName] = $refl;
 		}
