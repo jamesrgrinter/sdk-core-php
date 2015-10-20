@@ -46,6 +46,8 @@ class PPModel {
 		foreach($arr as $k => $v) {
 			if(is_array($v)) {
 				$clazz = PPReflectionUtil::getPropertyClass(get_class($this), $k);
+                if (!$clazz)
+                    continue;
 				
 				if(PPArrayUtil::isAssocArray($v)) {
 					$o = new $clazz();
